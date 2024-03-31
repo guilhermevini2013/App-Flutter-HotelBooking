@@ -14,6 +14,7 @@ class HomeView extends StatelessWidget {
       title: 'Hotel Booking',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent),
+        fontFamily: 'Principal',
         useMaterial3: false,
       ),
       home: const HomePresentation(),
@@ -30,11 +31,11 @@ class HomePresentation extends StatelessWidget {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       body: Container(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
-        child: const Center(
-          child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(10, 90, 10, 30),
+        child: const SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image(
                   image: AssetImage('assets/images/logo.png'),
@@ -73,13 +74,28 @@ class HomeMenu extends StatefulWidget {
 
 class _HomeMenuState extends State<HomeMenu> {
   bool _registerPage = false;
+  bool _typeRegisterClient = true;
+  bool _typeRegisterEnterprise = false;
+  final List<String> _options = ['MASCULINO', 'FEMININO'];
 
-  void _mudarTela(MenuButton typeButton){
+  void _alterView(MenuButton typeButton) {
     setState(() {
-      if(typeButton == MenuButton.REGISTER){
+      if (typeButton == MenuButton.REGISTER) {
         _registerPage = true;
-      }else{
+      } else {
         _registerPage = false;
+      }
+    });
+  }
+
+  void _getRegisterView(TypeRegister type) {
+    setState(() {
+      if (type == TypeRegister.CLIENT) {
+        _typeRegisterClient = true;
+        _typeRegisterEnterprise = false;
+      } else {
+        _typeRegisterClient = false;
+        _typeRegisterEnterprise = true;
       }
     });
   }
@@ -96,7 +112,7 @@ class _HomeMenuState extends State<HomeMenu> {
         ),
       ),
       onPressed: () {
-        _mudarTela(typeButton);
+        _alterView(typeButton);
       },
       child: Text(
         text,
@@ -124,15 +140,14 @@ class _HomeMenuState extends State<HomeMenu> {
           height: 20,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Column(
             children: [
               if (!_registerPage) ...{
                 const Text(
                   'Bem-vindo',
                   style: TextStyle(
-                    fontFamily: 'Principal',
-                    fontSize: 30,
+                    fontSize: 25,
                     color: Color(0xFF21347A),
                   ),
                 ),
@@ -167,23 +182,132 @@ class _HomeMenuState extends State<HomeMenu> {
                     ),
                   ),
                 ),
-
+                const SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF4A3DFA),
+                      textStyle: const TextStyle(fontSize: 20),
+                      fixedSize: Size(270, 30)),
+                  child: Text('Entrar'),
+                  onPressed: () {},
+                )
               } else ...{
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF21347A),
+                const Text(
+                  'Cadastra-se',
+                  style: TextStyle(
+                    fontFamily: 'Principal',
+                    fontSize: 25,
+                    color: Color(0xFF21347A),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          const Text('Cliente'),
+                          Checkbox(
+                            activeColor: Color(0xFF4A3DFA),
+                            value: _typeRegisterClient,
+                            onChanged: (value) {
+                              _getRegisterView(TypeRegister.CLIENT);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      // Define a cor da borda quando o TextField está ativado
-                      borderSide: BorderSide(
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          const Text('Empresa'),
+                          Checkbox(
+                            activeColor: Color(0xFF4A3DFA),
+                            value: _typeRegisterEnterprise,
+                            onChanged: (value) {
+                              _getRegisterView(TypeRegister.ENTERPRISE);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (_typeRegisterClient) ...{
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Nome',
+                      labelStyle: TextStyle(
                         color: Color(0xFF21347A),
-                        style: BorderStyle.solid,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF21347A),
+                          style: BorderStyle.solid,
+                        ),
                       ),
                     ),
                   ),
-                )
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(
+                        width: 160,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: 'CPF',
+                            labelStyle: TextStyle(
+                              color: Color(0xFF21347A),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xFF21347A),
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                          width: 160,
+                          child: DropdownButton<String>(
+                            onChanged: (String? newValue) {
+                              setState(() {
+                              });
+                            },
+                            items: _options
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF21347A),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF21347A),
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                  ),
+                }
               }
             ],
           ),
@@ -192,5 +316,7 @@ class _HomeMenuState extends State<HomeMenu> {
     );
   }
 }
+
+enum TypeRegister { CLIENT, ENTERPRISE }
 
 enum MenuButton { JOIN, REGISTER }
