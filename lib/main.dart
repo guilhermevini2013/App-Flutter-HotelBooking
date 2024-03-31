@@ -1,110 +1,196 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const HomeView());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Hotel Booking',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent),
+        useMaterial3: false,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePresentation(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class HomePresentation extends StatelessWidget {
+  const HomePresentation({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
+        child: const Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/logo.png'),
+                  width: 230,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: Text(
+                    'Começe já',
+                    style: TextStyle(
+                      fontFamily: 'Principal',
+                      fontSize: 25,
+                      color: Color(0xFF21347A),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                HomeMenu()
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class HomeMenu extends StatefulWidget {
+  const HomeMenu({super.key});
 
-  void _incrementCounter() {
+  @override
+  State<HomeMenu> createState() => _HomeMenuState();
+}
+
+class _HomeMenuState extends State<HomeMenu> {
+  bool _registerPage = false;
+
+  void _mudarTela(MenuButton typeButton){
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      if(typeButton == MenuButton.REGISTER){
+        _registerPage = true;
+      }else{
+        _registerPage = false;
+      }
     });
+  }
+
+  Widget _createButton(String text, Color color, MenuButton typeButton) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: const Color(0x0096a9ff),
+        shadowColor: color,
+        fixedSize: const Size(155, 30),
+        shape: LinearBorder.bottom(
+          side: const BorderSide(width: 1, color: Color(0xFF21347A)),
+        ),
+      ),
+      onPressed: () {
+        _mudarTela(typeButton);
+      },
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Principal',
+          fontSize: 17,
+          color: Color(0xFF21347A),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _createButton('Entrar', Colors.transparent, MenuButton.JOIN),
+            _createButton('Cadastrar', Colors.transparent, MenuButton.REGISTER),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        const SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: Column(
+            children: [
+              if (!_registerPage) ...{
+                const Text(
+                  'Bem-vindo',
+                  style: TextStyle(
+                    fontFamily: 'Principal',
+                    fontSize: 30,
+                    color: Color(0xFF21347A),
+                  ),
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Credenciais',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF21347A),
+                    ),
+                    counterText: 'E-mail ou CNPJ',
+                    focusedBorder: OutlineInputBorder(
+                      // Define a cor da borda quando o TextField está ativado
+                      borderSide: BorderSide(
+                        color: Color(0xFF21347A),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                  ),
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Senha',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF21347A),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      // Define a cor da borda quando o TextField está ativado
+                      borderSide: BorderSide(
+                        color: Color(0xFF21347A),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                  ),
+                ),
+
+              } else ...{
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Senha',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF21347A),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      // Define a cor da borda quando o TextField está ativado
+                      borderSide: BorderSide(
+                        color: Color(0xFF21347A),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                  ),
+                )
+              }
+            ],
+          ),
+        )
+      ],
     );
   }
 }
+
+enum MenuButton { JOIN, REGISTER }
