@@ -31,7 +31,7 @@ class HomePresentation extends StatelessWidget {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       body: Container(
-        padding: const EdgeInsets.fromLTRB(10, 90, 10, 30),
+        padding: const EdgeInsets.fromLTRB(10, 70, 10, 30),
         child: const SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Center(
@@ -77,6 +77,7 @@ class _HomeMenuState extends State<HomeMenu> {
   bool _typeRegisterClient = true;
   bool _typeRegisterEnterprise = false;
   final List<String> _options = ['MASCULINO', 'FEMININO'];
+  late String? _optionGender = _options[0];
 
   void _alterView(MenuButton typeButton) {
     setState(() {
@@ -276,8 +277,10 @@ class _HomeMenuState extends State<HomeMenu> {
                       SizedBox(
                           width: 160,
                           child: DropdownButton<String>(
+                            value: _optionGender,
                             onChanged: (String? newValue) {
                               setState(() {
+                                _optionGender = newValue;
                               });
                             },
                             items: _options
@@ -307,6 +310,58 @@ class _HomeMenuState extends State<HomeMenu> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Telefone',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF21347A),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF21347A),
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Data de nascimento',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF21347A),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF21347A),
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                   SizedBox(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF4A3DFA),
+                          textStyle: const TextStyle(fontSize: 20),
+                          fixedSize: Size(270, 30)),
+                      child: Text('Cadastrar'),
+                      onPressed: () {},
+                    )
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                }else...{
+
                 }
               }
             ],
