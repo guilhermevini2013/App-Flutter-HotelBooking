@@ -1,377 +1,126 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const HomeView());
+  runApp(const MyApp());
 }
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+const String _principalFont = 'principal';
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hotel Booking',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent),
-        fontFamily: 'Principal',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: const HomePresentation(),
+      home: const LoginView(),
     );
   }
 }
 
-class HomePresentation extends StatelessWidget {
-  const HomePresentation({super.key});
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
+
+  Text _textDecorated(double size, String text, Color color) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontFamily: _principalFont,
+        fontSize: size,
+        color: color,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(10, 70, 10, 30),
-        child: const SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                  width: 230,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Text(
-                    'Começe já',
-                    style: TextStyle(
-                      fontFamily: 'Principal',
-                      fontSize: 25,
-                      color: Color(0xFF21347A),
-                    ),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width * 1.0,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 150,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assert/images/logoHotel.png',
+                width: MediaQuery.of(context).size.width * 0.35,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => Color(0xFF1C8379)),
                   ),
+                  child: _textDecorated(17, 'Entrar', Colors.white),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shadowColor: MaterialStateColor.resolveWith(
+                        (states) => Color(0xFF1C8379)),
+                    side: MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: Color(0xFF1C8379))),
+                    backgroundColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.white),
+                  ),
+                  child: _textDecorated(17, 'Cadastrar', Color(0xFF1C8379)),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 100,
+            ),
+            Column(
+              children: [
+                _textDecorated(
+                    20, 'Siga nossas redes sociais', Color(0xFF1C8379)),
+                _textDecorated(15, '@ReservaAqui', Color(0xFF1C8379)),
+                const SizedBox(
+                  height: 10,
                 ),
                 SizedBox(
-                  height: 40,
-                ),
-                HomeMenu()
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeMenu extends StatefulWidget {
-  const HomeMenu({super.key});
-
-  @override
-  State<HomeMenu> createState() => _HomeMenuState();
-}
-
-class _HomeMenuState extends State<HomeMenu> {
-  bool _registerPage = false;
-  bool _typeRegisterClient = true;
-  bool _typeRegisterEnterprise = false;
-  final List<String> _options = ['MASCULINO', 'FEMININO'];
-  late String? _optionGender = _options[0];
-
-  void _alterView(MenuButton typeButton) {
-    setState(() {
-      if (typeButton == MenuButton.REGISTER) {
-        _registerPage = true;
-      } else {
-        _registerPage = false;
-      }
-    });
-  }
-
-  void _getRegisterView(TypeRegister type) {
-    setState(() {
-      if (type == TypeRegister.CLIENT) {
-        _typeRegisterClient = true;
-        _typeRegisterEnterprise = false;
-      } else {
-        _typeRegisterClient = false;
-        _typeRegisterEnterprise = true;
-      }
-    });
-  }
-
-  Widget _createButton(String text, Color color, MenuButton typeButton) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        foregroundColor: const Color(0x0096a9ff),
-        shadowColor: color,
-        fixedSize: const Size(155, 30),
-        shape: LinearBorder.bottom(
-          side: const BorderSide(width: 1, color: Color(0xFF21347A)),
-        ),
-      ),
-      onPressed: () {
-        _alterView(typeButton);
-      },
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: 'Principal',
-          fontSize: 17,
-          color: Color(0xFF21347A),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _createButton('Entrar', Colors.transparent, MenuButton.JOIN),
-            _createButton('Cadastrar', Colors.transparent, MenuButton.REGISTER),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Column(
-            children: [
-              if (!_registerPage) ...{
-                const Text(
-                  'Bem-vindo',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Color(0xFF21347A),
-                  ),
-                ),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Credenciais',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF21347A),
-                    ),
-                    counterText: 'E-mail ou CNPJ',
-                    focusedBorder: OutlineInputBorder(
-                      // Define a cor da borda quando o TextField está ativado
-                      borderSide: BorderSide(
-                        color: Color(0xFF21347A),
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                  ),
-                ),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF21347A),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      // Define a cor da borda quando o TextField está ativado
-                      borderSide: BorderSide(
-                        color: Color(0xFF21347A),
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF4A3DFA),
-                      textStyle: const TextStyle(fontSize: 20),
-                      fixedSize: Size(270, 30)),
-                  child: Text('Entrar'),
-                  onPressed: () {},
-                )
-              } else ...{
-                const Text(
-                  'Cadastra-se',
-                  style: TextStyle(
-                    fontFamily: 'Principal',
-                    fontSize: 25,
-                    color: Color(0xFF21347A),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      child: Row(
-                        children: [
-                          const Text('Cliente'),
-                          Checkbox(
-                            activeColor: Color(0xFF4A3DFA),
-                            value: _typeRegisterClient,
-                            onChanged: (value) {
-                              _getRegisterView(TypeRegister.CLIENT);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      child: Row(
-                        children: [
-                          const Text('Empresa'),
-                          Checkbox(
-                            activeColor: Color(0xFF4A3DFA),
-                            value: _typeRegisterEnterprise,
-                            onChanged: (value) {
-                              _getRegisterView(TypeRegister.ENTERPRISE);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                if (_typeRegisterClient) ...{
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Nome',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF21347A),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF21347A),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  height: 25,
+                  width: 120,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const SizedBox(
-                        width: 160,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            labelText: 'CPF',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF21347A),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFF21347A),
-                                style: BorderStyle.solid,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width: 160,
-                          child: DropdownButton<String>(
-                            value: _optionGender,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _optionGender = newValue;
-                              });
-                            },
-                            items: _options
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )),
+                      Image.asset('assert/images/logoinstagram.png'),
+                      Image.asset('assert/images/logoZap.png'),
+                      Image.asset('assert/images/logoLink.png'),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF21347A),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF21347A),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Telefone',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF21347A),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF21347A),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Data de nascimento',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF21347A),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFF21347A),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                   SizedBox(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF4A3DFA),
-                          textStyle: const TextStyle(fontSize: 20),
-                          fixedSize: Size(270, 30)),
-                      child: Text('Cadastrar'),
-                      onPressed: () {},
-                    )
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                }else...{
-
-                }
-              }
-            ],
-          ),
-        )
-      ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
-
-enum TypeRegister { CLIENT, ENTERPRISE }
-
-enum MenuButton { JOIN, REGISTER }
