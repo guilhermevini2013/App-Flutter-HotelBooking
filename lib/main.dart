@@ -1,10 +1,9 @@
+import 'package:apphotelbooking/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-const String _principalFont = 'principal';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,22 +14,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1C8379)),
         useMaterial3: false,
+        fontFamily: 'principal',
       ),
-      home: const LoginView(),
+      home: const PrincipalView(),
     );
   }
 }
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class PrincipalView extends StatelessWidget {
+  const PrincipalView({super.key});
 
   Text _textDecorated(double size, String text, Color color) {
     return Text(
       text,
       style: TextStyle(
-        fontFamily: _principalFont,
         fontSize: size,
         color: color,
       ),
@@ -62,33 +61,37 @@ class LoginView extends StatelessWidget {
               alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.65,
+                height: 45,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith(
-                        (states) => Color(0xFF1C8379)),
+                        (states) => const Color(0xFF1C8379)),
                   ),
-                  child: _textDecorated(17, 'Entrar', Colors.white),
-                  onPressed: () {},
+                  child: _textDecorated(20, 'Entrar', Colors.white),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginView()));
+                  },
                 ),
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 20,
             ),
             Container(
               alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.65,
+                height: 45,
                 child: ElevatedButton(
                   style: ButtonStyle(
                     shadowColor: MaterialStateColor.resolveWith(
-                        (states) => Color(0xFF1C8379)),
+                        (states) => const Color(0xFF1C8379)),
                     side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: Color(0xFF1C8379))),
+                        (states) => const BorderSide(color: Color(0xFF1C8379))),
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => Colors.white),
                   ),
-                  child: _textDecorated(17, 'Cadastrar', Color(0xFF1C8379)),
+                  child: _textDecorated(20, 'Cadastrar', Color(0xFF1C8379)),
                   onPressed: () {},
                 ),
               ),
@@ -99,13 +102,13 @@ class LoginView extends StatelessWidget {
             Column(
               children: [
                 _textDecorated(
-                    20, 'Siga nossas redes sociais', Color(0xFF1C8379)),
-                _textDecorated(15, '@ReservaAqui', Color(0xFF1C8379)),
+                    20, 'Siga nossas redes sociais', const Color(0xFF1C8379)),
+                _textDecorated(16, '@ReservaAqui', const Color(0xFF1C8379)),
                 const SizedBox(
                   height: 10,
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 26,
                   width: 120,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
