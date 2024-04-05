@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class LoginView extends StatelessWidget {
@@ -10,7 +12,7 @@ class LoginView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        foregroundColor: Color(0xFF1C8379),
+        foregroundColor: const Color(0xFF000000),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
@@ -53,13 +55,71 @@ class LoginViewComponents extends StatelessWidget {
                     height: 10,
                   ),
                   _textDecorated(22, 'Entre agora', const Color(0xFF000000)),
-                  _textDecorated(15, 'Tem um quarto esperando por você!',
-                      const Color(0xFF000000))
+                  const TextCarousel(),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TextCarousel extends StatefulWidget {
+  const TextCarousel({super.key});
+
+  @override
+  State<TextCarousel> createState() => _TextCarouselState();
+}
+
+class _TextCarouselState extends State<TextCarousel> {
+  final PageController _pageController = PageController();
+  final List<String> _phrases = [
+    'Tem um quarto esperando por você!',
+    'Segurança e conforto para você!',
+    'Busque o melhor hotel e reserve aqui!'
+  ];
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {
+        _currentIndex = (_currentIndex + 1) % _phrases.length;
+        _pageController.animateToPage(
+          _currentIndex,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.fastOutSlowIn,
+        );
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 20,
+      child: PageView.builder(
+        onPageChanged: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        controller: _pageController,
+        itemCount: _phrases.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Center(
+            child: Text(
+              _phrases[index],
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
