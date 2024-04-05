@@ -39,7 +39,7 @@ class PrincipalView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: MediaQuery.of(context).size.width * 1.0,
         child: Column(
@@ -91,7 +91,7 @@ class PrincipalView extends StatelessWidget {
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => Colors.white),
                   ),
-                  child: _textDecorated(20, 'Cadastrar', Color(0xFF1C8379)),
+                  child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
                   onPressed: () {},
                 ),
               ),
