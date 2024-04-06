@@ -1,4 +1,5 @@
-import 'package:apphotelbooking/login.dart';
+import 'package:apphotelbooking/views/login.dart';
+import 'package:apphotelbooking/views/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -92,7 +93,9 @@ class PrincipalView extends StatelessWidget {
                         (states) => Colors.white),
                   ),
                   child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterView(),));
+                  },
                 ),
               ),
             ),
