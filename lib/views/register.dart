@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
+import '../infra/services/userServices.dart';
+
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
 
@@ -146,8 +148,47 @@ class _RegisterComponentsState extends State<RegisterComponents> {
   }
 }
 
-class _ClientRegisterComponents extends StatelessWidget {
+class _ClientRegisterComponents extends StatefulWidget {
   const _ClientRegisterComponents({super.key});
+
+  @override
+  State<_ClientRegisterComponents> createState() =>
+      _ClientRegisterComponentsState();
+}
+
+class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
+  final UserService _userService = UserService();
+
+  final TextEditingController _nameController = TextEditingController();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  final TextEditingController _identityController = TextEditingController();
+
+  final TextEditingController _dateOfBirthController = TextEditingController();
+
+  final TextEditingController _numberPhoneController = TextEditingController();
+  bool _isSend = false;
+
+  void _registerClient() {
+    setState(() {
+      _isSend = true;
+    });
+    _userService
+        .registerUser(UserRegisterDTO(
+            _nameController.value.text,
+            _emailController.value.text,
+            _passwordController.value.text,
+            _identityController.value.text,
+            _dateOfBirthController.value.text,
+            _numberPhoneController.value.text,
+            TypeUser.CLIENT))
+        .whenComplete(() => setState(() {
+              _isSend = false;
+            }));
+  }
 
   Text _textDecorated(double size, String text, Color color) {
     return Text(
@@ -163,37 +204,40 @@ class _ClientRegisterComponents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TextField(
-          style: TextStyle(
+        TextField(
+          controller: _nameController,
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Nome',
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        const TextField(
-          style: TextStyle(
+        TextField(
+          controller: _emailController,
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'E-mail',
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        const TextField(
+        TextField(
+          controller: _passwordController,
           obscureText: true,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Senha',
           ),
         ),
@@ -206,6 +250,7 @@ class _ClientRegisterComponents extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.35,
               child: MaskedTextField(
+                controller: _identityController,
                 mask: "###.###.###-##",
                 maxLength: 14,
                 keyboardType: TextInputType.number,
@@ -221,6 +266,7 @@ class _ClientRegisterComponents extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.35,
               child: MaskedTextField(
+                controller: _dateOfBirthController,
                 mask: "##/##/####",
                 maxLength: 10,
                 keyboardType: TextInputType.number,
@@ -236,6 +282,7 @@ class _ClientRegisterComponents extends StatelessWidget {
           ],
         ),
         MaskedTextField(
+          controller: _numberPhoneController,
           mask: "+## (##) ####-#####",
           maxLength: 19,
           keyboardType: TextInputType.number,
@@ -263,9 +310,12 @@ class _ClientRegisterComponents extends StatelessWidget {
                   MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
-            onPressed: () {},
+            onPressed: () {
+              _registerClient();
+            },
           ),
         ),
+        if (_isSend) ...{LinearProgressIndicator()}
       ],
     );
   }
