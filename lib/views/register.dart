@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:masked_text/masked_text.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -44,7 +46,7 @@ class RegisterViewComponents extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(top: 20),
           child: Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.70,
+              width: MediaQuery.of(context).size.width * 0.75,
               child: Column(
                 children: [
                   _textDecorated(22, 'Crie sua conta e começe a reservar!',
@@ -54,7 +56,7 @@ class RegisterViewComponents extends StatelessWidget {
                   ),
                   _textDecorated(
                       17, 'Escolha o tipo de conta', const Color(0xFF000000)),
-                  const CheckBoxRegister()
+                  const RegisterComponents()
                 ],
               ),
             ),
@@ -63,14 +65,14 @@ class RegisterViewComponents extends StatelessWidget {
   }
 }
 
-class CheckBoxRegister extends StatefulWidget {
-  const CheckBoxRegister({super.key});
+class RegisterComponents extends StatefulWidget {
+  const RegisterComponents({super.key});
 
   @override
-  State<CheckBoxRegister> createState() => _CheckBoxRegisterState();
+  State<RegisterComponents> createState() => _RegisterComponentsState();
 }
 
-class _CheckBoxRegisterState extends State<CheckBoxRegister> {
+class _RegisterComponentsState extends State<RegisterComponents> {
   bool _checkBoxClient = true;
   bool _checkBoxEnterprise = false;
 
@@ -100,35 +102,166 @@ class _CheckBoxRegisterState extends State<CheckBoxRegister> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
       children: [
-        SizedBox(
-          child: Row(
-            children: [
-              _textDecorated(15, 'Cliente', const Color(0xFF000000)),
-              Checkbox(
-                value: _checkBoxClient,
-                onChanged: (value) {
-                  _alterCheckBoxClient(value);
-                },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(
+              child: Row(
+                children: [
+                  _textDecorated(15, 'Cliente', const Color(0xFF000000)),
+                  Checkbox(
+                    value: _checkBoxClient,
+                    onChanged: (value) {
+                      _alterCheckBoxClient(value);
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
+            SizedBox(
+              child: Row(
+                children: [
+                  _textDecorated(15, 'Empresa', const Color(0xFF000000)),
+                  Checkbox(
+                    value: _checkBoxEnterprise,
+                    onChanged: (value) {
+                      _alterCheckBoxEnterprise(value);
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+        _textDecorated(17, 'Preencha as informações', const Color(0xFF000000)),
+        if (_checkBoxClient) ...{const _ClientRegisterComponents()}
+      ],
+    );
+  }
+}
+
+class _ClientRegisterComponents extends StatelessWidget {
+  const _ClientRegisterComponents({super.key});
+
+  Text _textDecorated(double size, String text, Color color) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: size,
+        color: color,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const TextField(
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Nome',
           ),
         ),
-        SizedBox(
-          child: Row(
-            children: [
-              _textDecorated(15, 'Empresa', const Color(0xFF000000)),
-              Checkbox(
-                value: _checkBoxEnterprise,
-                onChanged: (value) {
-                  _alterCheckBoxEnterprise(value);
-                },
-              ),
-            ],
+        const SizedBox(
+          height: 10,
+        ),
+        const TextField(
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
           ),
-        )
+          decoration: InputDecoration(
+            labelText: 'E-mail',
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const TextField(
+          obscureText: true,
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Senha',
+          ),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: MaskedTextField(
+                mask: "###.###.###-##",
+                maxLength: 14,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(
+                  fontFamily: 'principal',
+                  fontSize: 17,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'CPF',
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: MaskedTextField(
+                mask: "##/##/####",
+                maxLength: 10,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(
+                  fontFamily: 'principal',
+                  fontSize: 17,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Nascimento',
+                ),
+              ),
+            ),
+          ],
+        ),
+        MaskedTextField(
+          mask: "+## (##) ####-#####",
+          maxLength: 19,
+          keyboardType: TextInputType.number,
+          style: const TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: const InputDecoration(
+            labelText: 'Telefone',
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.65,
+          height: 45,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              shadowColor: MaterialStateColor.resolveWith(
+                  (states) => const Color(0xFF1C8379)),
+              side: MaterialStateBorderSide.resolveWith(
+                  (states) => const BorderSide(color: Color(0xFF1C8379))),
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => Colors.white),
+            ),
+            child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
+            onPressed: () {},
+          ),
+        ),
       ],
     );
   }

@@ -70,7 +70,10 @@ class PrincipalView extends StatelessWidget {
                   ),
                   child: _textDecorated(20, 'Entrar', Colors.white),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginView()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginView()));
                   },
                 ),
               ),
@@ -92,9 +95,14 @@ class PrincipalView extends StatelessWidget {
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => Colors.white),
                   ),
-                  child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
+                  child: _textDecorated(
+                      20, 'Cadastre-se', const Color(0xFF1C8379)),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterView(),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterView(),
+                        ));
                   },
                 ),
               ),
