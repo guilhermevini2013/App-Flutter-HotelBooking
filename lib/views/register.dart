@@ -136,7 +136,11 @@ class _RegisterComponentsState extends State<RegisterComponents> {
           ],
         ),
         _textDecorated(17, 'Preencha as informações', const Color(0xFF000000)),
-        if (_checkBoxClient) ...{const _ClientRegisterComponents()}
+        if (_checkBoxClient) ...{
+          const _ClientRegisterComponents()
+        } else ...{
+          const _EnterpriseRegisterComponents()
+        }
       ],
     );
   }
@@ -226,6 +230,116 @@ class _ClientRegisterComponents extends StatelessWidget {
                 ),
                 decoration: const InputDecoration(
                   labelText: 'Nascimento',
+                ),
+              ),
+            ),
+          ],
+        ),
+        MaskedTextField(
+          mask: "+## (##) ####-#####",
+          maxLength: 19,
+          keyboardType: TextInputType.number,
+          style: const TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: const InputDecoration(
+            labelText: 'Telefone',
+          ),
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.65,
+          height: 45,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              shadowColor: MaterialStateColor.resolveWith(
+                  (states) => const Color(0xFF1C8379)),
+              side: MaterialStateBorderSide.resolveWith(
+                  (states) => const BorderSide(color: Color(0xFF1C8379))),
+              backgroundColor:
+                  MaterialStateColor.resolveWith((states) => Colors.white),
+            ),
+            child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
+            onPressed: () {},
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _EnterpriseRegisterComponents extends StatelessWidget {
+  const _EnterpriseRegisterComponents({super.key});
+
+  Text _textDecorated(double size, String text, Color color) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: size,
+        color: color,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const TextField(
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Nome da empresa',
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const TextField(
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: InputDecoration(
+            labelText: 'E-mail',
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const TextField(
+          obscureText: true,
+          style: TextStyle(
+            fontFamily: 'principal',
+            fontSize: 17,
+          ),
+          decoration: InputDecoration(
+            labelText: 'Senha',
+          ),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: MaskedTextField(
+                mask: "##.###.###/####-##",
+                maxLength: 18,
+                keyboardType: TextInputType.number,
+                style: const TextStyle(
+                  fontFamily: 'principal',
+                  fontSize: 17,
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'CNPJ',
                 ),
               ),
             ),
