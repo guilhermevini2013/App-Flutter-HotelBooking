@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
@@ -48,10 +49,7 @@ class RegisterViewComponents extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(top: 20),
           child: Center(
             child: SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.75,
+              width: MediaQuery.of(context).size.width * 0.75,
               child: Column(
                 children: [
                   _textDecorated(22, 'Crie sua conta e começe a reservar!',
@@ -143,10 +141,9 @@ class _RegisterComponentsState extends State<RegisterComponents> {
         _textDecorated(17, 'Preencha as informações', const Color(0xFF000000)),
         if (_checkBoxClient) ...{
           const _ClientRegisterComponents()
-        } else
-          ...{
-            const _EnterpriseRegisterComponents()
-          }
+        } else ...{
+          const _EnterpriseRegisterComponents()
+        }
       ],
     );
   }
@@ -180,45 +177,54 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
     setState(() {
       _isSend = true;
     });
-    _userService
-        .registerUser(UserRegisterDTO(
-        _nameController.value.text,
-        _emailController.value.text,
-        _passwordController.value.text,
-        _identityController.value.text,
-        _dateOfBirthController.value.text,
-        _numberPhoneController.value.text,
-        TypeUser.CLIENT))
-        .then((value) =>
-        setState(() {
-          _isSend = false;
-          Flushbar(
-            duration: const Duration(seconds: 3),
-            messageSize: 17,
-            icon: const Icon(
-              Icons.done,
-              color: Colors.white,
-              size: 30,
-            ),
-            message: "Cadastro efetuado!",
-            backgroundColor: const Color(0xFF1C8379),
-          ).show(context);
-        })).onError((error, stackTrace) => setState(() {
-      _isSend = false;
-      Flushbar(
-        duration: const Duration(seconds: 3),
-        messageSize: 15,
-        icon: const Icon(
-          Icons.data_thresholding,
-          color: Colors.white,
-          size: 30,
-        ),
-        message: error.toString().split(':')[1],
-        backgroundColor: const Color(0xFF960F0F),
-      ).show(context);
-    }));
+    _userService.registerUser(UserRegisterDTO(
+            _nameController.value.text,
+            _emailController.value.text,
+            _passwordController.value.text,
+            _identityController.value.text,
+            _dateOfBirthController.value.text,
+            _numberPhoneController.value.text,
+            TypeUser.CLIENT))
+        .then((value) => setState(() {
+              _isSend = false;
+              Flushbar(
+                duration: const Duration(seconds: 5),
+                messageSize: 17,
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                message: value,
+                backgroundColor: const Color(0xFF1C8379),
+              ).show(context);
+              _clearAllFields();
+            }))
+        .onError((error, stackTrace) => setState(() {
+              _isSend = false;
+              Flushbar(
+                duration: const Duration(seconds: 3),
+                messageSize: 15,
+                icon: const Icon(
+                  Icons.data_thresholding,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                message: error.toString().split(':')[1],
+                backgroundColor: const Color(0xFF960F0F),
+              ).show(context);
+            }));
   }
-
+  void _clearAllFields(){
+    setState(() {
+      _nameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+      _identityController.clear();
+      _dateOfBirthController.clear();
+      _numberPhoneController.clear();
+    });
+  }
   Text _textDecorated(double size, String text, Color color) {
     return Text(
       text,
@@ -277,10 +283,7 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.37,
+              width: MediaQuery.of(context).size.width * 0.37,
               child: MaskedTextField(
                 controller: _identityController,
                 mask: "###.###.###-##",
@@ -296,10 +299,7 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
               ),
             ),
             SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.33,
+              width: MediaQuery.of(context).size.width * 0.33,
               child: MaskedTextField(
                 controller: _dateOfBirthController,
                 mask: "##/##/####",
@@ -333,19 +333,16 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
           height: 30,
         ),
         SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.65,
+          width: MediaQuery.of(context).size.width * 0.65,
           height: 45,
           child: ElevatedButton(
             style: ButtonStyle(
               shadowColor: MaterialStateColor.resolveWith(
-                      (states) => const Color(0xFF1C8379)),
+                  (states) => const Color(0xFF1C8379)),
               side: MaterialStateBorderSide.resolveWith(
-                      (states) => const BorderSide(color: Color(0xFF1C8379))),
+                  (states) => const BorderSide(color: Color(0xFF1C8379))),
               backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.white),
+                  MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
             onPressed: () {
@@ -353,14 +350,86 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
             },
           ),
         ),
-        if (_isSend) ...{LinearProgressIndicator()}
+        if (_isSend) ...{const LinearProgressIndicator()}
       ],
     );
   }
 }
 
-class _EnterpriseRegisterComponents extends StatelessWidget {
+class _EnterpriseRegisterComponents extends StatefulWidget {
   const _EnterpriseRegisterComponents({super.key});
+
+  @override
+  State<_EnterpriseRegisterComponents> createState() => _EnterpriseRegisterComponentsState();
+}
+
+class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterComponents> {
+
+  final UserService _userService = UserService();
+
+  final TextEditingController _nameController = TextEditingController();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  final TextEditingController _identityController = TextEditingController();
+
+  final TextEditingController _numberPhoneController = TextEditingController();
+  bool _isSend = false;
+
+  void _registerEnterprise() {
+    print('chegou');
+    setState(() {
+      _isSend = true;
+    });
+    _userService.registerUser(UserRegisterDTO(
+        _nameController.value.text,
+        _emailController.value.text,
+        _passwordController.value.text,
+        _identityController.value.text,
+        null,
+        _numberPhoneController.value.text,
+        TypeUser.ENTERPRISE))
+        .then((value) => setState(() {
+      _isSend = false;
+      Flushbar(
+        duration: const Duration(seconds: 5),
+        messageSize: 17,
+        icon: const Icon(
+          Icons.done,
+          color: Colors.white,
+          size: 30,
+        ),
+        message: value,
+        backgroundColor: const Color(0xFF1C8379),
+      ).show(context);
+      _clearAllFields();
+    }))
+        .onError((error, stackTrace) => setState(() {
+      _isSend = false;
+      Flushbar(
+        duration: const Duration(seconds: 3),
+        messageSize: 15,
+        icon: const Icon(
+          Icons.data_thresholding,
+          color: Colors.white,
+          size: 30,
+        ),
+        message: error.toString().split(':')[1],
+        backgroundColor: const Color(0xFF960F0F),
+      ).show(context);
+    }));
+  }
+  void _clearAllFields(){
+    setState(() {
+      _nameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+      _identityController.clear();
+      _numberPhoneController.clear();
+    });
+  }
 
   Text _textDecorated(double size, String text, Color color) {
     return Text(
@@ -376,37 +445,40 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TextField(
-          style: TextStyle(
+         TextField(
+          controller: _nameController,
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Nome da empresa',
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        const TextField(
-          style: TextStyle(
+         TextField(
+          controller: _emailController,
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'E-mail',
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        const TextField(
+         TextField(
+          controller: _passwordController,
           obscureText: true,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'principal',
             fontSize: 17,
           ),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Senha',
           ),
         ),
@@ -417,11 +489,9 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.75,
+              width: MediaQuery.of(context).size.width * 0.75,
               child: MaskedTextField(
+                controller: _identityController,
                 mask: "##.###.###/####-##",
                 maxLength: 18,
                 keyboardType: TextInputType.number,
@@ -437,6 +507,7 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
           ],
         ),
         MaskedTextField(
+          controller: _numberPhoneController,
           mask: "+## (##) ####-#####",
           maxLength: 19,
           keyboardType: TextInputType.number,
@@ -452,24 +523,24 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
           height: 30,
         ),
         SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.65,
+          width: MediaQuery.of(context).size.width * 0.65,
           height: 45,
           child: ElevatedButton(
             style: ButtonStyle(
               shadowColor: MaterialStateColor.resolveWith(
-                      (states) => const Color(0xFF1C8379)),
+                  (states) => const Color(0xFF1C8379)),
               side: MaterialStateBorderSide.resolveWith(
-                      (states) => const BorderSide(color: Color(0xFF1C8379))),
+                  (states) => const BorderSide(color: Color(0xFF1C8379))),
               backgroundColor:
-              MaterialStateColor.resolveWith((states) => Colors.white),
+                  MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
-            onPressed: () {},
+            onPressed: () {
+              _registerEnterprise();
+            },
           ),
         ),
+        if (_isSend) ...{const LinearProgressIndicator()}
       ],
     );
   }

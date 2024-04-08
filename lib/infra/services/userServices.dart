@@ -7,7 +7,7 @@ class UserService {
   final String _host = '192.168.31.106';
   final int _port = 8080;
 
-  Future<void> registerUser(UserRegisterDTO userRegisterDTO) async {
+  Future<String> registerUser(UserRegisterDTO userRegisterDTO) async {
     final Uri apiUrl = Uri(
       scheme: 'http',
       host: _host,
@@ -22,8 +22,10 @@ class UserService {
       body: jsonEncode(userRegisterDTO.toJson()),
     );
     if (response.statusCode >= 400) {
-      throw Exception('Algo deu errado!');
+      Map<String, dynamic> mapError = jsonDecode(response.body);
+      throw Exception(mapError['errors'][0]);
     }
+    return 'Cadastro efetuado!';
   }
 }
 
@@ -32,7 +34,7 @@ class UserRegisterDTO {
   final String _email;
   final String _password;
   final String _identity;
-  final String _dateOfBirth;
+  final String? _dateOfBirth;
   final String _numberPhone;
   final TypeUser _typeUser;
 
@@ -43,7 +45,7 @@ class UserRegisterDTO {
 
   String get numberPhone => _numberPhone;
 
-  String get dateOfBirth => _dateOfBirth;
+  String get dateOfBirth => _dateOfBirth!;
 
   String get identity => _identity;
 
@@ -54,7 +56,7 @@ class UserRegisterDTO {
   String get name => _name;
 
   Map<String, dynamic> toJson() {
-    var dateSplit = _dateOfBirth.split('/');
+
     return {
       'name': _name,
       'email': _email,
@@ -62,7 +64,7 @@ class UserRegisterDTO {
       'identity': _identity,
       'numberPhone': _numberPhone,
       'typeUser': _typeUser.name,
-      'dateOfBirth': '${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}'
+
     };
   }
 }
