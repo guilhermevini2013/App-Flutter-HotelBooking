@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
@@ -48,7 +48,10 @@ class RegisterViewComponents extends StatelessWidget {
           padding: const EdgeInsetsDirectional.only(top: 20),
           child: Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.75,
               child: Column(
                 children: [
                   _textDecorated(22, 'Crie sua conta e começe a reservar!',
@@ -140,9 +143,10 @@ class _RegisterComponentsState extends State<RegisterComponents> {
         _textDecorated(17, 'Preencha as informações', const Color(0xFF000000)),
         if (_checkBoxClient) ...{
           const _ClientRegisterComponents()
-        } else ...{
-          const _EnterpriseRegisterComponents()
-        }
+        } else
+          ...{
+            const _EnterpriseRegisterComponents()
+          }
       ],
     );
   }
@@ -178,16 +182,41 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
     });
     _userService
         .registerUser(UserRegisterDTO(
-            _nameController.value.text,
-            _emailController.value.text,
-            _passwordController.value.text,
-            _identityController.value.text,
-            _dateOfBirthController.value.text,
-            _numberPhoneController.value.text,
-            TypeUser.CLIENT))
-        .whenComplete(() => setState(() {
-              _isSend = false;
-            }));
+        _nameController.value.text,
+        _emailController.value.text,
+        _passwordController.value.text,
+        _identityController.value.text,
+        _dateOfBirthController.value.text,
+        _numberPhoneController.value.text,
+        TypeUser.CLIENT))
+        .then((value) =>
+        setState(() {
+          _isSend = false;
+          Flushbar(
+            duration: const Duration(seconds: 3),
+            messageSize: 17,
+            icon: const Icon(
+              Icons.done,
+              color: Colors.white,
+              size: 30,
+            ),
+            message: "Cadastro efetuado!",
+            backgroundColor: const Color(0xFF1C8379),
+          ).show(context);
+        })).onError((error, stackTrace) => setState(() {
+      _isSend = false;
+      Flushbar(
+        duration: const Duration(seconds: 3),
+        messageSize: 15,
+        icon: const Icon(
+          Icons.data_thresholding,
+          color: Colors.white,
+          size: 30,
+        ),
+        message: error.toString().split(':')[1],
+        backgroundColor: const Color(0xFF960F0F),
+      ).show(context);
+    }));
   }
 
   Text _textDecorated(double size, String text, Color color) {
@@ -248,7 +277,10 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.35,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.37,
               child: MaskedTextField(
                 controller: _identityController,
                 mask: "###.###.###-##",
@@ -264,7 +296,10 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.35,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.33,
               child: MaskedTextField(
                 controller: _dateOfBirthController,
                 mask: "##/##/####",
@@ -298,16 +333,19 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
           height: 30,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.65,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.65,
           height: 45,
           child: ElevatedButton(
             style: ButtonStyle(
               shadowColor: MaterialStateColor.resolveWith(
-                  (states) => const Color(0xFF1C8379)),
+                      (states) => const Color(0xFF1C8379)),
               side: MaterialStateBorderSide.resolveWith(
-                  (states) => const BorderSide(color: Color(0xFF1C8379))),
+                      (states) => const BorderSide(color: Color(0xFF1C8379))),
               backgroundColor:
-                  MaterialStateColor.resolveWith((states) => Colors.white),
+              MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
             onPressed: () {
@@ -379,7 +417,10 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.75,
               child: MaskedTextField(
                 mask: "##.###.###/####-##",
                 maxLength: 18,
@@ -411,16 +452,19 @@ class _EnterpriseRegisterComponents extends StatelessWidget {
           height: 30,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.65,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width * 0.65,
           height: 45,
           child: ElevatedButton(
             style: ButtonStyle(
               shadowColor: MaterialStateColor.resolveWith(
-                  (states) => const Color(0xFF1C8379)),
+                      (states) => const Color(0xFF1C8379)),
               side: MaterialStateBorderSide.resolveWith(
-                  (states) => const BorderSide(color: Color(0xFF1C8379))),
+                      (states) => const BorderSide(color: Color(0xFF1C8379))),
               backgroundColor:
-                  MaterialStateColor.resolveWith((states) => Colors.white),
+              MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
             onPressed: () {},
