@@ -56,7 +56,16 @@ class UserRegisterDTO {
   String get name => _name;
 
   Map<String, dynamic> toJson() {
+    switch (_typeUser) {
+      case TypeUser.CLIENT:
+        return _toJsonClient();
+      case TypeUser.ENTERPRISE:
+        return _toJsonEnterprise();
+    }
+  }
 
+  Map<String, dynamic> _toJsonClient() {
+    var dateSplit = _dateOfBirth!.split('/');
     return {
       'name': _name,
       'email': _email,
@@ -64,7 +73,18 @@ class UserRegisterDTO {
       'identity': _identity,
       'numberPhone': _numberPhone,
       'typeUser': _typeUser.name,
+      'dateOfBirth': '${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}'
+    };
+  }
 
+  Map<String, dynamic> _toJsonEnterprise() {
+    return {
+      'name': _name,
+      'email': _email,
+      'password': _password,
+      'identity': _identity,
+      'numberPhone': _numberPhone,
+      'typeUser': _typeUser.name,
     };
   }
 }
