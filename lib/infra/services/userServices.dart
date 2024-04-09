@@ -65,6 +65,9 @@ class UserRegisterDTO {
   }
 
   Map<String, dynamic> _toJsonClient() {
+    if(_dateOfBirth!.isEmpty){
+      throw Exception('Data de nascimento incorreta');
+    }
     var dateSplit = _dateOfBirth!.split('/');
     return {
       'name': _name,

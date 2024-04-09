@@ -1,5 +1,5 @@
-import 'package:apphotelbooking/views/login.dart';
-import 'package:apphotelbooking/views/register.dart';
+import 'package:apphotelbooking/views/principal/login.dart';
+import 'package:apphotelbooking/views/principal/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {

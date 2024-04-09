@@ -1,9 +1,11 @@
+import 'dart:ffi';
+
 import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:apphotelbooking/views/enterprise/createhotel.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
-import '../infra/services/userServices.dart';
+import '../../infra/services/userServices.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -177,7 +179,8 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
     setState(() {
       _isSend = true;
     });
-    _userService.registerUser(UserRegisterDTO(
+    _userService
+        .registerUser(UserRegisterDTO(
             _nameController.value.text,
             _emailController.value.text,
             _passwordController.value.text,
@@ -215,7 +218,8 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
               ).show(context);
             }));
   }
-  void _clearAllFields(){
+
+  void _clearAllFields() {
     setState(() {
       _nameController.clear();
       _emailController.clear();
@@ -225,6 +229,7 @@ class _ClientRegisterComponentsState extends State<_ClientRegisterComponents> {
       _numberPhoneController.clear();
     });
   }
+
   Text _textDecorated(double size, String text, Color color) {
     return Text(
       text,
@@ -360,11 +365,12 @@ class _EnterpriseRegisterComponents extends StatefulWidget {
   const _EnterpriseRegisterComponents({super.key});
 
   @override
-  State<_EnterpriseRegisterComponents> createState() => _EnterpriseRegisterComponentsState();
+  State<_EnterpriseRegisterComponents> createState() =>
+      _EnterpriseRegisterComponentsState();
 }
 
-class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterComponents> {
-
+class _EnterpriseRegisterComponentsState
+    extends State<_EnterpriseRegisterComponents> {
   final UserService _userService = UserService();
 
   final TextEditingController _nameController = TextEditingController();
@@ -377,51 +383,53 @@ class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterCompon
 
   final TextEditingController _numberPhoneController = TextEditingController();
   bool _isSend = false;
+  bool _isSendComplete = false;
 
-  void _registerEnterprise() {
-    print('chegou');
+  Future<void> _registerEnterprise() async {
     setState(() {
       _isSend = true;
     });
-    _userService.registerUser(UserRegisterDTO(
-        _nameController.value.text,
-        _emailController.value.text,
-        _passwordController.value.text,
-        _identityController.value.text,
-        null,
-        _numberPhoneController.value.text,
-        TypeUser.ENTERPRISE))
+    _userService
+        .registerUser(UserRegisterDTO(
+            _nameController.value.text,
+            _emailController.value.text,
+            _passwordController.value.text,
+            _identityController.value.text,
+            null,
+            _numberPhoneController.value.text,
+            TypeUser.ENTERPRISE))
         .then((value) => setState(() {
-      _isSend = false;
-      Flushbar(
-        duration: const Duration(seconds: 5),
-        messageSize: 17,
-        icon: const Icon(
-          Icons.done,
-          color: Colors.white,
-          size: 30,
-        ),
-        message: value,
-        backgroundColor: const Color(0xFF1C8379),
-      ).show(context);
-      _clearAllFields();
-    }))
+              _isSend = false;
+              _clearAllFields();
+              _isSendComplete = true;
+            }))
         .onError((error, stackTrace) => setState(() {
-      _isSend = false;
-      Flushbar(
-        duration: const Duration(seconds: 3),
-        messageSize: 15,
-        icon: const Icon(
-          Icons.data_thresholding,
-          color: Colors.white,
-          size: 30,
-        ),
-        message: error.toString().split(':')[1],
-        backgroundColor: const Color(0xFF960F0F),
-      ).show(context);
-    }));
+              _isSend = false;
+              Flushbar(
+                duration: const Duration(seconds: 3),
+                messageSize: 15,
+                icon: const Icon(
+                  Icons.data_thresholding,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                message: error.toString().split(':')[1],
+                backgroundColor: const Color(0xFF960F0F),
+              ).show(context);
+            }))
+        .whenComplete(() {
+      if (_isSendComplete) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateHotel(),
+            ));
+        _isSendComplete = false;
+      }
+    });
   }
-  void _clearAllFields(){
+
+  void _clearAllFields() {
     setState(() {
       _nameController.clear();
       _emailController.clear();
@@ -445,7 +453,7 @@ class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterCompon
   Widget build(BuildContext context) {
     return Column(
       children: [
-         TextField(
+        TextField(
           controller: _nameController,
           style: const TextStyle(
             fontFamily: 'principal',
@@ -458,7 +466,7 @@ class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterCompon
         const SizedBox(
           height: 10,
         ),
-         TextField(
+        TextField(
           controller: _emailController,
           style: const TextStyle(
             fontFamily: 'principal',
@@ -471,7 +479,7 @@ class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterCompon
         const SizedBox(
           height: 10,
         ),
-         TextField(
+        TextField(
           controller: _passwordController,
           obscureText: true,
           style: const TextStyle(
@@ -535,7 +543,7 @@ class _EnterpriseRegisterComponentsState extends State<_EnterpriseRegisterCompon
                   MaterialStateColor.resolveWith((states) => Colors.white),
             ),
             child: _textDecorated(20, 'Cadastrar', const Color(0xFF1C8379)),
-            onPressed: () {
+            onPressed: () async {
               _registerEnterprise();
             },
           ),
