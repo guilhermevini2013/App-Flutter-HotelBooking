@@ -1,6 +1,9 @@
-import 'package:apphotelbooking/views/principal/login.dart';
-import 'package:apphotelbooking/views/principal/register.dart';
+import 'package:apphotelbooking/views/principal/login/login.dart';
+import 'package:apphotelbooking/views/principal/register/register-page.dart';
 import 'package:flutter/material.dart';
+
+import '../shared-view-widgets/colors.dart';
+import '../shared-view-widgets/widgets-decorated.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,16 +29,6 @@ class MyApp extends StatelessWidget {
 
 class PrincipalView extends StatelessWidget {
   const PrincipalView({super.key});
-
-  Text _textDecorated(double size, String text, Color color) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: size,
-        color: color,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +59,9 @@ class PrincipalView extends StatelessWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith(
-                        (states) => const Color(0xFF1C8379)),
+                        (states) => ColorsView.waterGreen),
                   ),
-                  child: _textDecorated(20, 'Entrar', Colors.white),
+                  child: WidgetsDecorated.textDecorated(20, 'Entrar', ColorsView.white),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -89,14 +82,14 @@ class PrincipalView extends StatelessWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     shadowColor: MaterialStateColor.resolveWith(
-                        (states) => const Color(0xFF1C8379)),
-                    side: MaterialStateBorderSide.resolveWith(
-                        (states) => const BorderSide(color: Color(0xFF1C8379))),
+                        (states) => ColorsView.waterGreen),
+                    side: MaterialStateBorderSide.resolveWith((states) =>
+                        const BorderSide(color: ColorsView.waterGreen)),
                     backgroundColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.white),
+                        (states) => ColorsView.white),
                   ),
-                  child: _textDecorated(
-                      20, 'Cadastre-se', const Color(0xFF1C8379)),
+                  child:
+                  WidgetsDecorated.textDecorated(20, 'Cadastre-se', ColorsView.waterGreen),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -112,9 +105,9 @@ class PrincipalView extends StatelessWidget {
             ),
             Column(
               children: [
-                _textDecorated(
-                    20, 'Siga nossas redes sociais', const Color(0xFF1C8379)),
-                _textDecorated(16, '@ReservaAqui', const Color(0xFF1C8379)),
+                WidgetsDecorated.textDecorated(
+                    20, 'Siga nossas redes sociais', ColorsView.waterGreen),
+                WidgetsDecorated.textDecorated(16, '@ReservaAqui', ColorsView.waterGreen),
                 const SizedBox(
                   height: 10,
                 ),
