@@ -2,62 +2,93 @@ import 'package:apphotelbooking/model-view/register-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
+import '../../enterprise/createhotel.dart';
 import '../../shared-view-widgets/colors.dart';
 import '../../shared-view-widgets/widgets-decorated.dart';
 
 class EnterpriseRegisterComponents extends StatefulWidget {
-  EnterpriseRegisterComponents(this.registerVM, {super.key});
+  EnterpriseRegisterComponents(this._registerVM, {super.key});
 
-  RegisterModelView registerVM;
+  RegisterModelView _registerVM;
 
   @override
   State<EnterpriseRegisterComponents> createState() =>
-      _EnterpriseRegisterComponentsState();
+      _EnterpriseRegisterComponentsState(_registerVM);
 }
 
 class _EnterpriseRegisterComponentsState
     extends State<EnterpriseRegisterComponents> {
+  _EnterpriseRegisterComponentsState(this._registerVM);
+
+  final _formKey = GlobalKey<FormState>();
+  RegisterModelView _registerVM;
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
-          const TextField(
-            style: TextStyle(
+          TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Campo obrigatorio';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _registerVM.name = value;
+            },
+            style: const TextStyle(
               fontFamily: 'principal',
               fontSize: 17,
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Nome da empresa',
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          const TextField(
-            style: TextStyle(
+          TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Campo obrigatorio';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _registerVM.email = value;
+            },
+            style: const TextStyle(
               fontFamily: 'principal',
               fontSize: 17,
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'E-mail',
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          const TextField(
+          TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Campo obrigatorio';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _registerVM.password = value;
+            },
             obscureText: true,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'principal',
               fontSize: 17,
             ),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Senha',
             ),
-          ),
-          const SizedBox(
-            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,6 +96,15 @@ class _EnterpriseRegisterComponentsState
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
                 child: MaskedTextField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Campo obrigatorio';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    _registerVM.cpf = value;
+                  },
                   mask: "##.###.###/####-##",
                   maxLength: 18,
                   keyboardType: TextInputType.number,
@@ -80,6 +120,15 @@ class _EnterpriseRegisterComponentsState
             ],
           ),
           MaskedTextField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Campo obrigatorio';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _registerVM.numberPhone = value;
+            },
             mask: "+## (##) ####-#####",
             maxLength: 19,
             keyboardType: TextInputType.number,
@@ -108,10 +157,22 @@ class _EnterpriseRegisterComponentsState
               ),
               child: WidgetsDecorated.textDecorated(
                   20, 'Cadastrar', ColorsView.waterGreen),
-              onPressed: () async {},
+              onPressed: () {
+                _registerVM.isSend = true;
+                setState(() {});
+                if (true) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateHotel(_registerVM),
+                      ));
+                }
+                _registerVM.isSend = false;
+                setState(() {});
+              },
             ),
           ),
-          if (true) ...{const LinearProgressIndicator()}
+          if (_registerVM.isSend) ...{const LinearProgressIndicator()}
         ],
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
@@ -13,11 +12,11 @@ class ClientRegisterComponents extends StatefulWidget {
 
   @override
   State<ClientRegisterComponents> createState() =>
-      ClientRegisterComponentsState(registerVM);
+      _ClientRegisterComponentsState(registerVM);
 }
 
-class ClientRegisterComponentsState extends State<ClientRegisterComponents> {
-  ClientRegisterComponentsState(this.registerVM);
+class _ClientRegisterComponentsState extends State<ClientRegisterComponents> {
+  _ClientRegisterComponentsState(this.registerVM);
 
   RegisterModelView registerVM;
   final _formKey = GlobalKey<FormState>();
@@ -186,9 +185,7 @@ class ClientRegisterComponentsState extends State<ClientRegisterComponents> {
               onPressed: () {
                 registerVM.isSend = true;
                 setState(() {});
-                if (_formKey.currentState!.validate()) {
-                  print(registerVM.isSend);
-                }
+                if (_formKey.currentState!.validate()) {}
                 registerVM.isSend = false;
                 setState(() {});
               },
