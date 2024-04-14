@@ -12,11 +12,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Reserva Aqui',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1C8379)),
         useMaterial3: false,
@@ -61,7 +60,8 @@ class PrincipalView extends StatelessWidget {
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => ColorsView.waterGreen),
                   ),
-                  child: WidgetsDecorated.textDecorated(20, 'Entrar', ColorsView.white),
+                  child: WidgetsDecorated.textDecorated(
+                      20, 'Entrar', ColorsView.white),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -88,8 +88,8 @@ class PrincipalView extends StatelessWidget {
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => ColorsView.white),
                   ),
-                  child:
-                  WidgetsDecorated.textDecorated(20, 'Cadastre-se', ColorsView.waterGreen),
+                  child: WidgetsDecorated.textDecorated(
+                      20, 'Cadastre-se', ColorsView.waterGreen),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -107,7 +107,8 @@ class PrincipalView extends StatelessWidget {
               children: [
                 WidgetsDecorated.textDecorated(
                     20, 'Siga nossas redes sociais', ColorsView.waterGreen),
-                WidgetsDecorated.textDecorated(16, '@ReservaAqui', ColorsView.waterGreen),
+                WidgetsDecorated.textDecorated(
+                    16, '@ReservaAqui', ColorsView.waterGreen),
                 const SizedBox(
                   height: 10,
                 ),

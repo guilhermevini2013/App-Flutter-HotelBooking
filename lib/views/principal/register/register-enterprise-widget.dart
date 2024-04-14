@@ -2,7 +2,7 @@ import 'package:apphotelbooking/model-view/register-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
-import '../../enterprise/createhotel.dart';
+import '../../enterprise/create-hotel.dart';
 import '../../shared-view-widgets/colors.dart';
 import '../../shared-view-widgets/widgets-decorated.dart';
 
