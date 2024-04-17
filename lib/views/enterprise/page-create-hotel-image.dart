@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:apphotelbooking/views/enterprise/card-check-map.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,15 +10,18 @@ import '../shared-view-widgets/colors.dart';
 import '../shared-view-widgets/widgets-decorated.dart';
 
 class PageCreateHotelImage extends StatefulWidget {
-   const PageCreateHotelImage(this._createHotelViewModel,{super.key});
+  const PageCreateHotelImage(this._createHotelViewModel, {super.key});
+
   final CreateHotelViewModel _createHotelViewModel;
 
   @override
-  State<PageCreateHotelImage> createState() => _PageCreateHotelImageState(_createHotelViewModel);
+  State<PageCreateHotelImage> createState() =>
+      _PageCreateHotelImageState(_createHotelViewModel);
 }
 
 class _PageCreateHotelImageState extends State<PageCreateHotelImage> {
   _PageCreateHotelImageState(this._createHotelViewModel);
+
   final CreateHotelViewModel _createHotelViewModel;
 
   Future<void> _openGallery(BuildContext context) async {
@@ -29,7 +33,7 @@ class _PageCreateHotelImageState extends State<PageCreateHotelImage> {
         _createHotelViewModel.filesImage.add(element);
       });
       setState(() {});
-    } else if(pickedFile != null){
+    } else if (pickedFile != null) {
       Flushbar(
         icon: const Icon(
           Icons.report_gmailerrorred,
@@ -40,8 +44,8 @@ class _PageCreateHotelImageState extends State<PageCreateHotelImage> {
         duration: const Duration(seconds: 2),
       ).show(context);
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -76,22 +80,31 @@ class _PageCreateHotelImageState extends State<PageCreateHotelImage> {
             height: 30,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              childAspectRatio: 0.75,
-              children:
-              _createHotelViewModel.filesImage.map((XFile imageFile) {
-                return Card(
-                  child: Image.file(
-                    File(imageFile.path),
-                  ),
-                );
-              }).toList(),
-            ),
+            // height: MediaQuery.of(context).size.height * 0.6,
+            // child: GridView.count(
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   crossAxisCount: 3,
+            //   crossAxisSpacing: 10.0,
+            //   mainAxisSpacing: 10.0,
+            //   childAspectRatio: 0.80,
+            //   children: _createHotelViewModel.filesImage.map((XFile imageFile) {
+            //     return Card(
+            //       child: Image.file(
+            //         File(imageFile.path),
+            //       ),
+            //     );
+            //   }).toList(),
+            // ),
+          ),
+          const CardCheckMap(),
+          SizedBox(
+            height: 45,
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+                onPressed: () {
+                },
+                child: WidgetsDecorated.textDecorated(
+                    17, 'Criar Hotel', ColorsView.white)),
           ),
         ],
       ),

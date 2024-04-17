@@ -28,6 +28,7 @@ class _PageCreateHotelInformationState
 
   final CreateHotelViewModel _createHotelViewModel;
   final _formKey = GlobalKey<FormState>();
+  bool _next = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,9 @@ class _PageCreateHotelInformationState
                     }
                     return null;
                   },
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    _createHotelViewModel.nameHotel = value;
+                  },
                   style: const TextStyle(
                     fontFamily: 'principal',
                     fontSize: 17,
@@ -101,7 +104,9 @@ class _PageCreateHotelInformationState
                     }
                     return null;
                   },
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    _createHotelViewModel.streetName = value;
+                  },
                   style: const TextStyle(
                     fontFamily: 'principal',
                     fontSize: 17,
@@ -121,7 +126,9 @@ class _PageCreateHotelInformationState
                           }
                           return null;
                         },
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _createHotelViewModel.streetNumber = value as int;
+                        },
                         maxLength: 7,
                         keyboardType: TextInputType.number,
                         style: const TextStyle(
@@ -142,7 +149,9 @@ class _PageCreateHotelInformationState
                           }
                           return null;
                         },
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _createHotelViewModel.district = value;
+                        },
                         maxLength: 20,
                         style: const TextStyle(
                           fontFamily: 'principal',
@@ -162,7 +171,9 @@ class _PageCreateHotelInformationState
                     }
                     return null;
                   },
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    _createHotelViewModel.city = value;
+                  },
                   style: const TextStyle(
                     fontFamily: 'principal',
                     fontSize: 17,
@@ -170,6 +181,21 @@ class _PageCreateHotelInformationState
                   decoration: const InputDecoration(
                       labelText: 'Cidade', counterText: 'ex: Campinas'),
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    WidgetsDecorated.textDecorated(
+                        20, 'Arraste para o lado', ColorsView.waterGreen),
+                    const Icon(
+                      size: 35,
+                      Icons.swipe_left,
+                      color: ColorsView.waterGreen,
+                    ),
+                  ],
+                )
               ],
             ),
           ),
