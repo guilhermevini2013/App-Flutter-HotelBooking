@@ -26,113 +26,109 @@ class LoginView extends StatelessWidget {
           ),
         ),
       ),
-      body:  LoginViewComponents(),
+      body: LoginViewComponents(),
     );
   }
 }
 
 class LoginViewComponents extends StatelessWidget {
-   LoginViewComponents({super.key});
+  LoginViewComponents({super.key});
+
   var loginVM = LoginViewModel();
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 70),
-        child: Center(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 1.0,
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              Column(
-                children: [
-                  Image.asset('assert/images/logoHotel.png',
-                      width: MediaQuery.of(context).size.width * 0.35),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  WidgetsDecorated.textDecorated(
-                      22, 'Entre agora', const Color(0xFF000000)),
-                  const TextCarousel(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      child: Column(
-                        children: [
-                           TextFormField(
-                             validator: (value) {
-                               if(value!.isEmpty){
-                                 return 'Campo obrigatorio';
-                               }
-                               return null;
-                             },
-                             onChanged: (value) {
-                               loginVM.credential = value;
-                             },
-                            style: const TextStyle(
-                              fontFamily: 'principal',
-                              fontSize: 17,
-                            ),
-                            decoration: const InputDecoration(
-                                labelText: 'Credenciais',
-                                helperText: 'E-mail ou CNPJ'),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                           TextFormField(
-                             validator: (value) {
-                               if(value!.isEmpty){
-                                 return 'Campo obrigatorio';
-                               }
-                               return null;
-                             },
-                             onChanged: (value) {
-                               loginVM.password = value;
-                             },
-                            obscureText: true,
-                            style: const TextStyle(
-                              fontFamily: 'principal',
-                              fontSize: 17,
-                            ),
-                            decoration: const InputDecoration(
-                              labelText: 'Senha',
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 45,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.65,
-                            height: 45,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                shadowColor: MaterialStateColor.resolveWith(
-                                    (states) => ColorsView.waterGreen),
-                                side: MaterialStateBorderSide.resolveWith(
-                                    (states) => const BorderSide(
-                                        color: ColorsView.waterGreen)),
-                                backgroundColor: MaterialStateColor.resolveWith(
-                                    (states) => ColorsView.white),
-                              ),
-                              child: WidgetsDecorated.textDecorated(
-                                  20, 'Entrar', ColorsView.waterGreen),
-                              onPressed: () {
-                                if(_formKey.currentState!.validate()){
-
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+              Image.asset('assert/images/logoHotel.png',
+                  width: MediaQuery.of(context).size.width * 0.35),
+              const SizedBox(
+                height: 10,
               ),
+              WidgetsDecorated.textDecorated(
+                  22, 'Entre agora', const Color(0xFF000000)),
+              const TextCarousel(),
+              const SizedBox(
+                height: 20,
+              ),
+              Form(
+                key: _formKey,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.80,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Campo obrigatorio';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          loginVM.credential = value;
+                        },
+                        style: const TextStyle(
+                          fontFamily: 'principal',
+                          fontSize: 17,
+                        ),
+                        decoration: const InputDecoration(
+                            labelText: 'Credenciais',
+                            helperText: 'E-mail ou CNPJ'),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Campo obrigatorio';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          loginVM.password = value;
+                        },
+                        obscureText: true,
+                        style: const TextStyle(
+                          fontFamily: 'principal',
+                          fontSize: 17,
+                        ),
+                        decoration: const InputDecoration(
+                          labelText: 'Senha',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        height: 45,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shadowColor: MaterialStateColor.resolveWith(
+                                (states) => ColorsView.waterGreen),
+                            side: MaterialStateBorderSide.resolveWith((states) =>
+                                const BorderSide(color: ColorsView.waterGreen)),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                                (states) => ColorsView.white),
+                          ),
+                          child: WidgetsDecorated.textDecorated(
+                              20, 'Entrar', ColorsView.waterGreen),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {}
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -157,6 +153,7 @@ class _TextCarouselState extends State<TextCarousel> {
     'Segurança e conforto para você!',
     'Busque o melhor hotel e reserve aqui!'
   ];
+
   @override
   void initState() {
     super.initState();

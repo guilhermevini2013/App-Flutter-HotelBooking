@@ -36,10 +36,8 @@ class PrincipalView extends StatelessWidget {
       body: SizedBox(
         width: MediaQuery.of(context).size.width * 1.0,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 150,
-            ),
             Container(
               alignment: Alignment.center,
               child: Image.asset(
