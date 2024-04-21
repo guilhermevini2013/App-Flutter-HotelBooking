@@ -37,14 +37,14 @@ class CreateHotelPage extends StatelessWidget {
 
   final RegisterModelView _registerMV;
   final CreateHotelViewModel _createHotelViewModel = CreateHotelViewModel();
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 1.0,
       child: PageView(children: [
         Center(
-          child: PageCreateHotelInformation(_registerMV, _createHotelViewModel),
+          child: PageCreateHotelInformation(_registerMV, _createHotelViewModel,_formKey),
         ),
         Center(
           child: PageCreateHotelImage(_createHotelViewModel),

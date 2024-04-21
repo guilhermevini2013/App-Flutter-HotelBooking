@@ -1,13 +1,34 @@
+import 'package:apphotelbooking/model-view/create-hotel-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../infra/api/googleMaps/mapsService.dart';
 import '../shared-view-widgets/colors.dart';
 import '../shared-view-widgets/widgets-decorated.dart';
 
-class CardCheckMap extends StatelessWidget {
-  CardCheckMap({super.key});
+class CardCheckMap extends StatefulWidget {
+  CardCheckMap(this._createHotelViewModel, {super.key});
 
+  CreateHotelViewModel _createHotelViewModel;
+
+  @override
+  State<CardCheckMap> createState() => _CardCheckMapState();
+}
+
+class _CardCheckMapState extends State<CardCheckMap> {
   late GoogleMapController _mapController;
+
+  late double _latitude;
+
+  late double _longitude;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _latitude = widget._createHotelViewModel.lat;
+    _longitude = widget._createHotelViewModel.log;
+  }
 
   void _onMapCreate(GoogleMapController mapController) {
     _mapController = mapController;
@@ -30,18 +51,16 @@ class CardCheckMap extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1,
               child: GoogleMap(
                 onMapCreated: _onMapCreate,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(-23.5557714, -46.63955571),
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(_latitude, _longitude),
                   zoom: 13.9,
                 ),
                 markers: {
-                  const Marker(
-                    markerId: MarkerId("unique"),
+                  Marker(
+                    markerId: const MarkerId("unique"),
                     icon: BitmapDescriptor.defaultMarker,
-                    position: LatLng(-23.5557714, -46.63955571),
-                    infoWindow: InfoWindow(
-                      title: "Seu Hotel"
-                    ),
+                    position: LatLng(_latitude, _longitude),
+                    infoWindow: const InfoWindow(title: "Seu Hotel"),
                   ),
                 },
               ),
@@ -59,7 +78,9 @@ class CardCheckMap extends StatelessWidget {
                   backgroundColor: MaterialStateColor.resolveWith(
                       (states) => ColorsView.white),
                 ),
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 child: const Icon(
                   Icons.done,
                   color: ColorsView.waterGreen,

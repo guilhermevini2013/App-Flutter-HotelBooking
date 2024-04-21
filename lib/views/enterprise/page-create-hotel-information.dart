@@ -1,21 +1,20 @@
-import 'dart:async';
 
 import 'package:apphotelbooking/model-view/create-hotel-vm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:masked_text/masked_text.dart';
 
 import '../../model-view/register-vm.dart';
 import '../shared-view-widgets/colors.dart';
 import '../shared-view-widgets/widgets-decorated.dart';
 
 class PageCreateHotelInformation extends StatefulWidget {
-  const PageCreateHotelInformation(this._registerMV, this._createHotelViewModel,
+  const PageCreateHotelInformation(
+      this._registerMV, this._createHotelViewModel, this._formKey,
       {super.key});
 
   final CreateHotelViewModel _createHotelViewModel;
   final RegisterModelView _registerMV;
+  final GlobalKey<FormState> _formKey;
 
   @override
   State<PageCreateHotelInformation> createState() =>
@@ -27,8 +26,6 @@ class _PageCreateHotelInformationState
   _PageCreateHotelInformationState(this._createHotelViewModel);
 
   final CreateHotelViewModel _createHotelViewModel;
-  final _formKey = GlobalKey<FormState>();
-  bool _next = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,7 @@ class _PageCreateHotelInformationState
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: Form(
-            key: _formKey,
+            key: widget._formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,6 +47,7 @@ class _PageCreateHotelInformationState
                   height: 20,
                 ),
                 TextFormField(
+                  initialValue: _createHotelViewModel.nameHotel,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Campo obrigatorio';
@@ -98,6 +96,7 @@ class _PageCreateHotelInformationState
                   height: 10,
                 ),
                 TextFormField(
+                  initialValue: _createHotelViewModel.streetName,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Campo obrigatorio';
@@ -120,6 +119,7 @@ class _PageCreateHotelInformationState
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.36,
                       child: TextFormField(
+                        initialValue: _createHotelViewModel.streetNumber,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Campo obrigatorio';
@@ -127,7 +127,7 @@ class _PageCreateHotelInformationState
                           return null;
                         },
                         onChanged: (value) {
-                          _createHotelViewModel.streetNumber = value as int;
+                          _createHotelViewModel.streetNumber = value;
                         },
                         maxLength: 7,
                         keyboardType: TextInputType.number,
@@ -143,6 +143,7 @@ class _PageCreateHotelInformationState
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.38,
                       child: TextFormField(
+                        initialValue: _createHotelViewModel.district,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Campo obrigatorio';
@@ -165,6 +166,7 @@ class _PageCreateHotelInformationState
                   ],
                 ),
                 TextFormField(
+                  initialValue: _createHotelViewModel.city,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Campo obrigatorio';
@@ -173,6 +175,7 @@ class _PageCreateHotelInformationState
                   },
                   onChanged: (value) {
                     _createHotelViewModel.city = value;
+                    widget._formKey.currentState!.validate();
                   },
                   style: const TextStyle(
                     fontFamily: 'principal',

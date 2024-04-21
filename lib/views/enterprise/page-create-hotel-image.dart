@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:apphotelbooking/infra/controllers/map-controller.dart';
 import 'package:apphotelbooking/views/enterprise/card-check-map.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../infra/api/googleMaps/mapsService.dart';
 import '../../model-view/create-hotel-vm.dart';
 import '../shared-view-widgets/colors.dart';
 import '../shared-view-widgets/widgets-decorated.dart';
@@ -103,12 +105,7 @@ class _PageCreateHotelImageState extends State<PageCreateHotelImage> {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CardCheckMap();
-                      },
-                    );
+                    MapController().getCoordinate(_createHotelViewModel, context);
                   },
                   child: WidgetsDecorated.textDecorated(
                       17, 'Criar Hotel', ColorsView.white)),
