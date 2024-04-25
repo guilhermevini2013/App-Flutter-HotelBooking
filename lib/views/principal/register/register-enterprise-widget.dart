@@ -1,3 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:apphotelbooking/infra/api/hotelBooking/userServices.dart';
+import 'package:apphotelbooking/infra/controllers/user-controller.dart';
 import 'package:apphotelbooking/model-view/register-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
@@ -22,6 +25,7 @@ class _EnterpriseRegisterComponentsState
 
   final _formKey = GlobalKey<FormState>();
   RegisterModelView _registerVM;
+  UserController _userController = UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -157,15 +161,28 @@ class _EnterpriseRegisterComponentsState
               ),
               child: WidgetsDecorated.textDecorated(
                   20, 'Cadastrar', ColorsView.waterGreen),
-              onPressed: () {
+              onPressed: () async {
                 _registerVM.isSend = true;
                 setState(() {});
-                if (true) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateHotel(_registerVM),
-                      ));
+                if (_formKey.currentState!.validate()) {
+                  _registerVM.typeUser = TypeUser.ENTERPRISE;
+                  await _userController.register(_registerVM).then(
+                    (value) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateHotel(_registerVM)));
+                    },
+                  ).onError(
+                    (error, stackTrace) {
+                      Flushbar(
+                        duration: Duration(seconds: 2),
+                        backgroundColor: ColorsView.redWarn,
+                        messageText: WidgetsDecorated.textDecorated(
+                            20, error.toString().split(":")[1], Colors.white),
+                      ).show(context);
+                    },
+                  );
                 }
                 _registerVM.isSend = false;
                 setState(() {});

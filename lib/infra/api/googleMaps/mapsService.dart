@@ -5,7 +5,7 @@ import '../../../model-view/create-hotel-vm.dart';
 import 'package:http/http.dart' as http;
 
 class MapsServices {
-  final String _apiKey = 'AIzaSyBnSHQstZM4rxzCFqI6CJ1NevzGCutNvY';
+  final String _apiKey = 'IzaSyBnSHQstZM4rxzCFqI6CJ1NevzGCutNvY';
   final String _geocode = 'maps.googleapis.com';
 
   Future<Void?> getCoordinate(CreateHotelViewModel createHotelVM) async {

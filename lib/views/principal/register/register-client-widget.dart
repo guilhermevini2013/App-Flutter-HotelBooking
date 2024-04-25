@@ -1,3 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:apphotelbooking/infra/api/hotelBooking/userServices.dart';
+import 'package:apphotelbooking/infra/controllers/user-controller.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
@@ -20,6 +23,7 @@ class _ClientRegisterComponentsState extends State<ClientRegisterComponents> {
 
   RegisterModelView registerVM;
   final _formKey = GlobalKey<FormState>();
+  UserController _userController = UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +186,31 @@ class _ClientRegisterComponentsState extends State<ClientRegisterComponents> {
               ),
               child: WidgetsDecorated.textDecorated(
                   20, 'Cadastrar', ColorsView.waterGreen),
-              onPressed: () {
+              onPressed: () async {
                 registerVM.isSend = true;
                 setState(() {});
-                if (_formKey.currentState!.validate()) {}
+                if (_formKey.currentState!.validate()) {
+                  registerVM.typeUser = TypeUser.CLIENT;
+                  await _userController.register(registerVM).then(
+                    (value) {
+                      Flushbar(
+                        duration: Duration(seconds: 2),
+                        backgroundColor: ColorsView.waterGreen,
+                        messageText: WidgetsDecorated.textDecorated(
+                            20, 'Cadastrado com sucesso!', Colors.white),
+                      ).show(context);
+                    },
+                  ).onError(
+                    (error, stackTrace) {
+                      Flushbar(
+                        duration: Duration(seconds: 2),
+                        backgroundColor: ColorsView.redWarn,
+                        messageText: WidgetsDecorated.textDecorated(
+                            20, error.toString().split(":")[1], Colors.white),
+                      ).show(context);
+                    },
+                  );
+                }
                 registerVM.isSend = false;
                 setState(() {});
               },
