@@ -194,7 +194,7 @@ class _ClientRegisterComponentsState extends State<ClientRegisterComponents> {
                   await _userController.register(registerVM).then(
                     (value) {
                       Flushbar(
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                         backgroundColor: ColorsView.waterGreen,
                         messageText: WidgetsDecorated.textDecorated(
                             20, 'Cadastrado com sucesso!', Colors.white),
@@ -203,7 +203,7 @@ class _ClientRegisterComponentsState extends State<ClientRegisterComponents> {
                   ).onError(
                     (error, stackTrace) {
                       Flushbar(
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                         backgroundColor: ColorsView.redWarn,
                         messageText: WidgetsDecorated.textDecorated(
                             20, error.toString().split(":")[1], Colors.white),

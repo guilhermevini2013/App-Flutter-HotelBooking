@@ -5,6 +5,7 @@ import 'package:apphotelbooking/model-view/register-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
+import '../../../model-view/login-vm.dart';
 import '../../enterprise/create-hotel.dart';
 import '../../shared-view-widgets/colors.dart';
 import '../../shared-view-widgets/widgets-decorated.dart';
@@ -168,6 +169,8 @@ class _EnterpriseRegisterComponentsState
                   _registerVM.typeUser = TypeUser.ENTERPRISE;
                   await _userController.register(_registerVM).then(
                     (value) {
+                      var loginVM = LoginViewModel(_registerVM.cpf,_registerVM.password,TypeUser.CLIENT);
+                      _userController.login(loginVM);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -176,7 +179,7 @@ class _EnterpriseRegisterComponentsState
                   ).onError(
                     (error, stackTrace) {
                       Flushbar(
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                         backgroundColor: ColorsView.redWarn,
                         messageText: WidgetsDecorated.textDecorated(
                             20, error.toString().split(":")[1], Colors.white),

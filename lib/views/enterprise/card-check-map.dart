@@ -1,8 +1,7 @@
+import 'package:apphotelbooking/infra/controllers/hotel-controller.dart';
 import 'package:apphotelbooking/model-view/create-hotel-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../../infra/api/googleMaps/mapsService.dart';
 import '../shared-view-widgets/colors.dart';
 import '../shared-view-widgets/widgets-decorated.dart';
 
@@ -79,7 +78,8 @@ class _CardCheckMapState extends State<CardCheckMap> {
                       (states) => ColorsView.white),
                 ),
                 onPressed: () {
-
+                  final HotelController _usercontroller = HotelController();
+                  _usercontroller.createHotel(widget._createHotelViewModel);
                 },
                 child: const Icon(
                   Icons.done,

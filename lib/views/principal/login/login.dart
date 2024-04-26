@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apphotelbooking/infra/api/hotelBooking/userServices.dart';
 import 'package:apphotelbooking/model-view/login-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,7 +35,7 @@ class LoginView extends StatelessWidget {
 class LoginViewComponents extends StatelessWidget {
   LoginViewComponents({super.key});
 
-  var loginVM = LoginViewModel();
+  var loginVM = LoginViewModel('','',TypeUser.CLIENT);
   final _formKey = GlobalKey<FormState>();
 
   @override
