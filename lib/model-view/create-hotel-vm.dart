@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 class CreateHotelViewModel {
@@ -15,22 +18,30 @@ class CreateHotelViewModel {
     return '$streetName $city $streetName $district';
   }
 
-  Map<String,dynamic> toJson(){
+  Map<String, dynamic> toJson() {
+    List<String> imagesBase64 = [];
+
+    for (XFile file in filesImage) {
+      List<int> bytes = File(file.path).readAsBytesSync();
+      String base64Image = base64Encode(bytes);
+      imagesBase64.add(base64Image);
+    }
     return {
-      'name':nameHotel,
-      'sizeHotel':sizeType,
+      'name': nameHotel,
+      'sizeHotel': sizeType,
       'address': {
         'street': streetName,
         'streetNumber': streetNumber,
         'city': city,
-        'district':district,
-        'positionX':lat,
-        'positionY':log
+        'district': district,
+        'positionX': lat,
+        'positionY': log
       },
-      'contact':{
+      'contact': {
         'numberPhone': tellPhone,
-        'email':'123@123'
-      }
+        'email': '123@123'
+      },
+      'imageBase64': imagesBase64,
     };
   }
 }
