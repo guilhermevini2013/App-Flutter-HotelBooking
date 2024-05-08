@@ -2,14 +2,12 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:apphotelbooking/infra/controllers/map-controller.dart';
-import 'package:apphotelbooking/views/enterprise/card-check-map.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../infra/api/googleMaps/mapsService.dart';
-import '../../model-view/create-hotel-vm.dart';
-import '../shared-view-widgets/colors.dart';
-import '../shared-view-widgets/widgets-decorated.dart';
+import '../../../model-view/create-hotel-vm.dart';
+import '../../shared-view-widgets/colors.dart';
+import '../../shared-view-widgets/widgets-decorated.dart';
 
 class PageCreateHotelImage extends StatefulWidget {
   const PageCreateHotelImage(this._createHotelViewModel, {super.key});

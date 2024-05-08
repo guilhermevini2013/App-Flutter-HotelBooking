@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:masked_text/masked_text.dart';
 
 import '../../../model-view/login-vm.dart';
-import '../../enterprise/create-hotel.dart';
+import '../../enterprise/create/create-hotel.dart';
 import '../../shared-view-widgets/colors.dart';
 import '../../shared-view-widgets/widgets-decorated.dart';
 

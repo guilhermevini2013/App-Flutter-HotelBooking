@@ -122,7 +122,10 @@ class LoginViewComponents extends StatelessWidget {
                           child: WidgetsDecorated.textDecorated(
                               20, 'Entrar', ColorsView.waterGreen),
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+                              final UserService userService = UserService();
+                              userService.loginUser(loginVM);
+                            }
                           },
                         ),
                       ),
@@ -154,7 +157,6 @@ class _TextCarouselState extends State<TextCarousel> {
     'Segurança e conforto para você!',
     'Busque o melhor hotel e reserve aqui!'
   ];
-
   @override
   void initState() {
     super.initState();

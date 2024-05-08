@@ -1,8 +1,9 @@
 import 'package:apphotelbooking/model-view/register-vm.dart';
-import 'package:apphotelbooking/views/enterprise/page-create-hotel-image.dart';
-import 'package:apphotelbooking/views/enterprise/page-create-hotel-information.dart';
+import 'package:apphotelbooking/views/enterprise/create/page-create-hotel-image.dart';
+import 'package:apphotelbooking/views/enterprise/create/page-create-hotel-information.dart';
 import 'package:flutter/material.dart';
-import '../../model-view/create-hotel-vm.dart';
+
+import '../../../model-view/create-hotel-vm.dart';
 
 class CreateHotel extends StatelessWidget {
   const CreateHotel(this._registerMV, {super.key});

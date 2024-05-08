@@ -2,8 +2,8 @@ import 'package:apphotelbooking/infra/controllers/hotel-controller.dart';
 import 'package:apphotelbooking/model-view/create-hotel-vm.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../shared-view-widgets/colors.dart';
-import '../shared-view-widgets/widgets-decorated.dart';
+import '../../shared-view-widgets/colors.dart';
+import '../../shared-view-widgets/widgets-decorated.dart';
 
 class CardCheckMap extends StatefulWidget {
   CardCheckMap(this._createHotelViewModel, {super.key});

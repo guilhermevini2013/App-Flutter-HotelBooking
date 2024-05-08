@@ -1,11 +1,10 @@
-
 import 'package:apphotelbooking/model-view/create-hotel-vm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../model-view/register-vm.dart';
-import '../shared-view-widgets/colors.dart';
-import '../shared-view-widgets/widgets-decorated.dart';
+import '../../../model-view/register-vm.dart';
+import '../../shared-view-widgets/colors.dart';
+import '../../shared-view-widgets/widgets-decorated.dart';
 
 class PageCreateHotelInformation extends StatefulWidget {
   const PageCreateHotelInformation(
@@ -175,7 +174,6 @@ class _PageCreateHotelInformationState
                   },
                   onChanged: (value) {
                     _createHotelViewModel.city = value;
-                    widget._formKey.currentState!.validate();
                   },
                   style: const TextStyle(
                     fontFamily: 'principal',
@@ -183,6 +181,41 @@ class _PageCreateHotelInformationState
                   ),
                   decoration: const InputDecoration(
                       labelText: 'Cidade', counterText: 'ex: Campinas'),
+                ),
+                TextFormField(
+                  initialValue: _createHotelViewModel.city,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Campo obrigatorio';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    if(value != ''){
+                      _createHotelViewModel.price = double.parse(value);
+                    }
+                    widget._formKey.currentState!.validate();
+                  },
+                  style: const TextStyle(
+                    fontFamily: 'principal',
+                    fontSize: 17,
+                  ),
+                  decoration: const InputDecoration(
+                      labelText: 'Preço', counterText: 'ex: 200'),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  maxLines: null,
+                  onChanged: (value) {
+                    _createHotelViewModel.description = value;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Digite a descrição do seu hotel...',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,

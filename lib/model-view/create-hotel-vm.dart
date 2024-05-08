@@ -13,6 +13,8 @@ class CreateHotelViewModel {
   String sizeType = 'SMALL';
   double lat = 0;
   double log = 0;
+  String description ='';
+  double price =0;
   String tellPhone = '+00 (00) 0000-00000';
   String getAddress() {
     return '$streetName $city $streetName $district';
@@ -29,6 +31,8 @@ class CreateHotelViewModel {
     return {
       'name': nameHotel,
       'sizeHotel': sizeType,
+      "price": price,
+      "description": description,
       'address': {
         'street': streetName,
         'streetNumber': streetNumber,

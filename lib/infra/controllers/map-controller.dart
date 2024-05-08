@@ -4,7 +4,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../model-view/create-hotel-vm.dart';
-import '../../views/enterprise/card-check-map.dart';
+import '../../views/enterprise/create/card-check-map.dart';
 import '../../views/shared-view-widgets/colors.dart';
 import '../api/googleMaps/mapsService.dart';
 
