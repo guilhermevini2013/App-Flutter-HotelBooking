@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../shared-view-widgets/colors.dart';
 import '../../shared-view-widgets/widgets-decorated.dart';
+import '../dashboard/dashboard-page.dart';
 
 class CardCheckMap extends StatefulWidget {
   CardCheckMap(this._createHotelViewModel, {super.key});
@@ -80,6 +81,12 @@ class _CardCheckMapState extends State<CardCheckMap> {
                 onPressed: () {
                   final HotelController _usercontroller = HotelController();
                   _usercontroller.createHotel(widget._createHotelViewModel);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DashboardPage(),
+                    ),
+                  );
                 },
                 child: const Icon(
                   Icons.done,
