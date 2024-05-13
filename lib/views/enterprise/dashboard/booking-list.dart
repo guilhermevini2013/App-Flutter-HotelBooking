@@ -29,16 +29,41 @@ class _BookingListState extends State<BookingList> {
         Expanded(
           child: Container(
             width: MediaQuery.of(context).size.width * 1,
-            color: Colors.amberAccent,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
               child: ListView.builder(
-                itemCount: 3,
+                itemCount: 10,
                 itemBuilder: (context, index) {
                   return Container(
-                    width: 20,
-                    height: 20,
-                    child: Text('dadawd'),
+                    width: MediaQuery.of(context).size.width * 1,
+                    height: 50,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    color: Colors.black12,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetsDecorated.textDecorated(
+                                17, 'totalPerson', Colors.black),
+                            WidgetsDecorated.textDecorated(
+                                17, 'initialDate', Colors.black),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetsDecorated.textDecorated(
+                                17, 'price', Colors.black),
+                            WidgetsDecorated.textDecorated(
+                                17, 'finalDate', Colors.black),
+                          ],
+                        ),
+                        ElevatedButton(
+                            onPressed: () {}, child: const Text("Aceitar"))
+                      ],
+                    ),
                   );
                 },
               ),
